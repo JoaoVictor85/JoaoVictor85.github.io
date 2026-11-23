@@ -605,3 +605,87 @@ body {
     transition: opacity 0.3s ease, transform 0.3s ease;
     z-index: 3;
 }
+
+
+/* =========================================
+   Painel de Progresso de Estudos
+========================================= */
+#progresso-estudos-container {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 25px;
+    text-align: left;
+    border-top: 1px solid var(--border-dim);
+    padding-top: 20px;
+}
+
+.section-submenu {
+    font-family: 'Fira Code', monospace;
+    font-size: 11px;
+    color: var(--term-amber);
+    text-transform: lowercase;
+    margin-bottom: 15px;
+}
+
+#lista-progresso {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.progresso-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    cursor: help;
+}
+
+.progresso-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.progresso-tecnologia {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.progresso-tecnologia i {
+    font-size: 18px;
+}
+
+.progresso-tecnologia span {
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    color: var(--text-primary);
+}
+
+.progresso-porcentagem {
+    font-family: 'Fira Code', monospace;
+    font-size: 11px;
+    color: var(--accent-bright);
+}
+
+.progresso-barra-bg {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(26, 36, 51, 0.6);
+    border: 1px solid var(--border-dim);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progresso-barra-fill {
+    height: 100%;
+    background-color: var(--accent-glow);
+    border-radius: 4px;
+    transition: width 1s ease-in-out;
+    box-shadow: 0 0 6px var(--accent-bright);
+}
+
+/* Efeito de destaque no hover para os estudos */
+.progresso-item:hover .progresso-barra-fill {
+    background-color: var(--accent-bright);
+}

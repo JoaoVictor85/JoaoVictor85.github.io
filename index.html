@@ -86,6 +86,8 @@
                 <li><a href="mailto:victor3456santos@gmail.com" title="E-mail"><ion-icon name="mail-outline"></ion-icon></a></li>
             </ul>
 
+
+            <!-- Botão de Currículo -->
             <div id="resume-container">
                 <a href="curriculo.html" id="btn-resume" title="Currículo" target="_blank">
                     <ion-icon name="terminal-outline"></ion-icon>
@@ -93,6 +95,98 @@
                     <span class="sub-btn">cat cv_jvictor.txt</span>
                 </a>
             </div>
+
+            <!-- Seção de Progresso e Estudos -->
+            <div id="progresso-estudos-container">
+                <p class="section-submenu">_estudos_atuais.sh</p>
+                <div id="lista-progresso">
+                    <!-- As barras de progresso ativas serão inseridas aqui dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Script de Automação de Estudos e Progresso -->
+            <script>
+                // Banco de dados de progresso. 
+                // Para ATIVAR uma tecnologia: remova as duas barras "//" do início de suas linhas.
+                // Para DESATIVAR uma tecnologia: adicione duas barras "//" no início de suas linhas.
+                const dadosProgresso = [
+                    // === 01 // CLOUD COMPUTING ===
+                    // { "tecnologia": "AWS", "iconClass": "devicon-amazonwebservices-plain-wordmark colored", "porcentagem": 90 },
+                    //{ "tecnologia": "Oracle Cloud", "iconClass": "devicon-oracle-original colored", "porcentagem": 15 },
+
+                    // === 02 // CONTAINERS & ORQUESTRAÇÃO ===
+                    // { "tecnologia": "Linux", "iconClass": "devicon-linux-plain colored", "porcentagem": 85 },
+                    // { "tecnologia": "Docker", "iconClass": "devicon-docker-plain colored", "porcentagem": 70 },
+                   // { "tecnologia": "Kubernetes", "iconClass": "devicon-kubernetes-plain colored", "porcentagem": 45 },
+                    // { "tecnologia": "Amazon EKS", "iconClass": "svg-tech-icon", "porcentagem": 20 },
+                    // { "tecnologia": "Amazon ECS", "iconClass": "svg-tech-icon", "porcentagem": 25 },
+
+                    // === 03 // CI/CD & SCRIPTING ===
+                    // { "tecnologia": "Git", "iconClass": "devicon-git-plain colored", "porcentagem": 80 },
+                    // { "tecnologia": "GitLab", "iconClass": "devicon-gitlab-plain colored", "porcentagem": 60 },
+                    // { "tecnologia": "GitHub", "iconClass": "devicon-github-original colored", "porcentagem": 75 },
+                    // { "tecnologia": "GitHub Actions", "iconClass": "devicon-githubactions-plain colored", "porcentagem": 40 },
+                    // { "tecnologia": "Python", "iconClass": "devicon-python-plain colored", "porcentagem": 30 },
+
+                    // === 04 // INFRAESTRUTURA COMO CÓDIGO (IAC) ===
+                    // { "tecnologia": "Terraform", "iconClass": "devicon-terraform-plain colored", "porcentagem": 75 },
+                    // { "tecnologia": "AWS CloudFormation", "iconClass": "svg-tech-icon", "porcentagem": 35 },
+
+                    // === 05 // OBSERVABILIDADE & MONITORAMENTO ===
+                    // { "tecnologia": "Prometheus", "iconClass": "devicon-prometheus-original colored", "porcentagem": 50 },
+                    // { "tecnologia": "Grafana", "iconClass": "devicon-grafana-original colored", "porcentagem": 40 },
+                    // { "tecnologia": "Datadog", "iconClass": "devicon-datadog-original colored", "porcentagem": 15 }
+
+                    // === 06 // INTELIGÊNCIA ARTIFICIAL ===
+                    // { "tecnologia": "PyTorch", "iconClass": "devicon-pytorch-original colored", "porcentagem": 10 },
+                    // { "tecnologia": "Hugging Face", "iconClass": "svg-tech-icon", "porcentagem": 15 },
+                    // { "tecnologia": "TensorFlow", "iconClass": "devicon-tensorflow-original colored", "porcentagem": 10 },
+                    // { "tecnologia": "OpenAI APIs", "iconClass": "devicon-openai-original colored", "porcentagem": 5 }
+                ];
+
+                function carregarProgresso() {
+                    try {
+                        const container = document.getElementById('lista-progresso');
+                        if (!container) return;
+                        
+                        container.innerHTML = ''; // Limpa a área antes de construir
+                        let exibiuItens = false;
+                        
+                        // Verifica se o array foi definido e contém itens válidos
+                        if (typeof dadosProgresso !== 'undefined' && dadosProgresso.length > 0) {
+                            dadosProgresso.forEach(item => {
+                                // Criação do template HTML para cada item de estudo ativo
+                                const itemHTML = `
+                                    <div class="progresso-item">
+                                        <div class="progresso-header">
+                                            <span class="progresso-tecnologia">
+                                                <i class="${item.iconClass}"></i>
+                                                <span>${item.tecnologia}</span>
+                                            </span>
+                                            <span class="progresso-porcentagem">${item.porcentagem}%</span>
+                                        </div>
+                                        <div class="progresso-barra-bg">
+                                            <div class="progresso-barra-fill" style="width: ${item.porcentagem}%"></div>
+                                        </div>
+                                    </div>
+                                `;
+                                container.innerHTML += itemHTML;
+                                exibiuItens = true;
+                            });
+                        }
+
+                        // Caso nenhuma tecnologia esteja ativa, exibe uma mensagem amigável no console
+                        if (!exibiuItens) {
+                            container.innerHTML = '<p class="section-desc" style="font-size: 11px; opacity: 0.5;">Nenhum estudo ativo no pipeline.</p>';
+                        }
+                    } catch (erro) {
+                        console.error("Erro ao carregar o progresso do pipeline:", erro);
+                    }
+                }
+
+                // Dispara o carregamento assim que o navegador finalizar a leitura da página
+                document.addEventListener('DOMContentLoaded', carregarProgresso);
+            </script>
         </aside>
 
         <!-- CONTEÚDO PRINCIPAL: Dashboards e Projetos -->
