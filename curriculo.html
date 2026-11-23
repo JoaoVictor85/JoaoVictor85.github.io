@@ -8,16 +8,31 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     
     <!-- Link para o CSS Externo -->
     <link rel="stylesheet" href="css/curriculo.css">
 </head>
 <body>
 
-    <!-- Botão de Voltar -->
-    <a href="index.html" class="btn-voltar">← Voltar para o Portfólio</a>
+    <!-- Overlay Global de Console sutil no fundo da página -->
+    <div class="scanline"></div>
 
+    <!-- Container de Navegação e Utilitários -->
+    <div class="top-nav-container">
+        <!-- Botão de Voltar para o Portfólio -->
+        <a href="index.html" class="btn-voltar">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+            <span>voltar_para_console.sh</span>
+        </a>
+
+        <!-- Botão de Impressão Estratégico (Sem palavras, apenas o ícone de impressora) -->
+        <button onclick="window.print()" class="btn-print" title="Imprimir Currículo">
+            <ion-icon name="print-outline"></ion-icon>
+        </button>
+    </div>
+
+    <!-- Documento Principal -->
     <div class="resume-container">
         
         <!-- Cabeçalho -->
@@ -46,7 +61,7 @@
                         <span class="job-title">SysOps Trainee / Estagiário SysOps</span>
                         <span class="job-date">Maio 2025 - Presente</span>
                     </div>
-                    <div class="job-company">Mytech</div>
+                    <div class="job-company">Mytech Tecnologia em Nuvem | Remoto, Brasil</div>
                     <ul class="job-tasks">
                         <li>Monitoramento e suporte operacional de recursos AWS como EC2, RDS e S3.</li>
                         <li>Criação de scripts e rotinas automatizadas com AWS Lambda e EventBridge.</li>
@@ -112,5 +127,9 @@
         </section>
 
     </div>
+
+    <!-- Ion Icons -->
+    <script type="module" src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@8.0.13/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
