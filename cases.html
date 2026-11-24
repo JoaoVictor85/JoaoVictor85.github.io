@@ -8,7 +8,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     
     <!-- Dev Icon Fonts -->
     <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
@@ -22,95 +22,137 @@
 </head>
 <body>
 
+    <!-- Overlay Global de Console sutil no fundo da página -->
+    <div class="scanline"></div>
+
+    <!-- Barra Superior de Navegação -->
     <div class="top-bar">
-        <a href="index.html" class="btn-voltar"><ion-icon name="arrow-back-outline"></ion-icon> Voltar para o Portfólio</a>
+        <a href="index.html" class="btn-voltar">
+            <ion-icon name="arrow-back-outline"></ion-icon> 
+            <span>voltar_para_console.sh</span>
+        </a>
     </div>
 
     <div class="container">
         
-        <!-- Tela Principal: Lista de Cases -->
+        <!-- Tela Principal: Lista de Cases (Agora em formato de Carrossel) -->
         <div id="cases-list-view">
             <header class="page-header">
+                <div class="badge-git">git log --oneline // cases</div>
                 <h1>Meus Cases de Sucesso</h1>
-                <p>Projetos reais de arquitetura, automação e otimização na AWS.</p>
+                <p class="role-desc">Projetos reais de arquitetura, automação e otimização de infraestrutura na AWS.</p>
                 
-                <!-- Barra de Pesquisa -->
-                <div class="search-bar">
-                    <ion-icon name="search-outline"></ion-icon>
-                    <input type="text" id="searchInput" onkeyup="filtrarCases()" placeholder="Pesquisar por tecnologia, problema ou resultado... (Ex: EKS, Redução)">
+                <!-- Barra de Pesquisa Animada -->
+                <div class="search-wrapper" id="searchWrapper">
+                    <div class="search-bar">
+                        <ion-icon name="terminal-outline" class="search-icon-anim" id="searchIcon"></ion-icon>
+                        <div class="input-container">
+                            <input type="text" id="searchInput" onkeyup="filtrarCases()" placeholder="pesquisar_ambiente_ou_resultado... (Ex: EKS, Redução)" onfocus="ativarBusca()" onblur="desativarBusca()">
+                            <span class="terminal-cursor" id="terminalCursor"></span>
+                        </div>
+                    </div>
+                    <div class="search-status-bar">
+                        <span class="status-indicator-dot"></span>
+                        <span class="status-msg" id="statusMsg">Pronto para buscar</span>
+                    </div>
                 </div>
             </header>
 
-            <!-- Grade de Cases (Boxes) -->
-            <div class="cases-grid" id="casesGrid">
-                
-                <!-- BOX: Case 1 -->
-                <div class="case-card" onclick="abrirCase('case-1')">
-                    <div class="diff-wrapper">
-                        <span class="diff-text">Avançado</span>
-                        <div class="diff-meter hard">
-                            <div class="diff-segment"></div>
-                            <div class="diff-segment"></div>
-                            <div class="diff-segment"></div>
-                            <div class="diff-segment"></div>
-                            <ion-icon name="water" class="diff-pointer"></ion-icon>
+            <!-- Palco do Carrossel -->
+            <div class="carousel-container">
+                <!-- Botão Esquerdo -->
+                <button class="carousel-nav btn-prev" onclick="mudarSlide(-1)" title="Caso Anterior">
+                    <ion-icon name="chevron-back-outline"></ion-icon>
+                </button>
+
+                <!-- Área de Visualização com Transições em Grid Única -->
+                <div class="carousel-view">
+                    <div class="cases-grid" id="casesGrid">
+                        
+                        <!-- CARD: Case 1 -->
+                        <div class="case-card active" data-index="0" onclick="abrirCase('case-1')">
+                            <div class="card-edge"></div>
+                            <div class="diff-wrapper">
+                                <span class="diff-text">Avançado</span>
+                                <div class="diff-meter hard" title="Dificuldade: Avançado">
+                                    <div class="diff-segment"></div>
+                                    <div class="diff-segment"></div>
+                                    <div class="diff-segment"></div>
+                                    <div class="diff-segment"></div>
+                                    <ion-icon name="water" class="diff-pointer"></ion-icon>
+                                </div>
+                            </div>
+                            <h3 class="case-title">Redução de 42% nos custos de infraestrutura AWS e deploy zero-downtime com EKS e Terraform</h3>
+                            <p class="case-desc">Migração de um monolito hospedado em EC2 para microserviços no Amazon EKS, implementando governança FinOps e CI/CD automatizado.</p>
+                            <span class="read-more">Ler Case Completo <ion-icon name="arrow-forward-outline"></ion-icon></span>
                         </div>
+
+                        <!-- CARD: Case 2 -->
+                        <div class="case-card" data-index="1" onclick="abrirCase('case-2')">
+                            <div class="card-edge"></div>
+                            <div class="diff-wrapper">
+                                <span class="diff-text">Intermediário</span>
+                                <div class="diff-meter medium" title="Dificuldade: Intermediário">
+                                    <div class="diff-segment"></div>
+                                    <div class="diff-segment"></div>
+                                    <div class="diff-segment"></div>
+                                    <div class="diff-segment"></div>
+                                    <ion-icon name="water" class="diff-pointer"></ion-icon>
+                                </div>
+                            </div>
+                            <h3 class="case-title">Otimização de CI/CD: Redução do Lead Time de 45 para 6 minutos com GitHub Actions</h3>
+                            <p class="case-desc">Reestruturação completa de pipelines de integração e entrega contínua, eliminando deploys manuais e reduzindo falhas em produção.</p>
+                            <span class="read-more">Ler Case Completo <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                        </div>
+
+                        <!-- CARD: Case 3 -->
+                        <div class="case-card" data-index="2" onclick="abrirCase('case-3')">
+                            <div class="card-edge"></div>
+                            <div class="diff-wrapper">
+                                <span class="diff-text">Especialista</span>
+                                <div class="diff-meter expert" title="Dificuldade: Especialista">
+                                    <div class="diff-segment"></div>
+                                    <div class="diff-segment"></div>
+                                    <div class="diff-segment"></div>
+                                    <div class="diff-segment"></div>
+                                    <ion-icon name="water" class="diff-pointer"></ion-icon>
+                                </div>
+                            </div>
+                            <h3 class="case-title">Alta Disponibilidade (99.99%) e Disaster Recovery Multi-Region na AWS</h3>
+                            <p class="case-desc">Desenho e implementação de arquitetura resiliente com failover automático usando Route53, RDS Multi-AZ e Auto Scaling Groups.</p>
+                            <span class="read-more">Ler Case Completo <ion-icon name="arrow-forward-outline"></ion-icon></span>
+                        </div>
+
                     </div>
-                    <h3 class="case-title">Redução de 42% nos custos de infraestrutura AWS e deploy zero-downtime com EKS e Terraform</h3>
-                    <p class="case-desc">Migração de um monolito hospedado em EC2 para microserviços no Amazon EKS, implementando governança FinOps e CI/CD automatizado.</p>
-                    <span class="read-more">Ler Case Completo <ion-icon name="arrow-forward-outline"></ion-icon></span>
                 </div>
 
-                <!-- BOX: Case 2 -->
-                <div class="case-card" onclick="abrirCase('case-2')">
-                    <div class="diff-wrapper">
-                        <span class="diff-text">Intermediário</span>
-                        <div class="diff-meter medium">
-                            <div class="diff-segment"></div>
-                            <div class="diff-segment"></div>
-                            <div class="diff-segment"></div>
-                            <div class="diff-segment"></div>
-                            <ion-icon name="water" class="diff-pointer"></ion-icon>
-                        </div>
-                    </div>
-                    <h3 class="case-title">Otimização de CI/CD: Redução do Lead Time de 45 para 6 minutos com GitHub Actions</h3>
-                    <p class="case-desc">Reestruturação completa de pipelines de integração e entrega contínua, eliminando deploys manuais e reduzindo falhas em produção.</p>
-                    <span class="read-more">Ler Case Completo <ion-icon name="arrow-forward-outline"></ion-icon></span>
-                </div>
+                <!-- Botão Direito -->
+                <button class="carousel-nav btn-next" onclick="mudarSlide(1)" title="Próximo Caso">
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                </button>
+            </div>
 
-                <!-- BOX: Case 3 -->
-                <div class="case-card" onclick="abrirCase('case-3')">
-                    <div class="diff-wrapper">
-                        <span class="diff-text">Especialista</span>
-                        <div class="diff-meter expert">
-                            <div class="diff-segment"></div>
-                            <div class="diff-segment"></div>
-                            <div class="diff-segment"></div>
-                            <div class="diff-segment"></div>
-                            <ion-icon name="water" class="diff-pointer"></ion-icon>
-                        </div>
-                    </div>
-                    <h3 class="case-title">Alta Disponibilidade (99.99%) e Disaster Recovery Multi-Region na AWS</h3>
-                    <p class="case-desc">Desenho e implementação de arquitetura resiliente com failover automático usando Route53, RDS Multi-AZ e Auto Scaling Groups.</p>
-                    <span class="read-more">Ler Case Completo <ion-icon name="arrow-forward-outline"></ion-icon></span>
-                </div>
-
+            <!-- Controles de Paginação (Bullets por ID do Case) -->
+            <div class="carousel-bullets" id="carouselBullets">
+                <!-- Inserido de forma dinâmica baseada no array visível -->
             </div>
         </div>
 
         <!-- =========================================================
-             CONTEÚDO DOS CASES (Ocultos por padrão)
+             CONTEÚDO DOS CASES (Navegação SPA Oculta por padrão)
         ========================================================== -->
 
         <!-- CASE 1 COMPLETO -->
         <article id="case-1" class="case-content" style="display: none;">
-            <button class="btn-voltar-lista" onclick="voltarParaLista()"><ion-icon name="list-outline"></ion-icon> Voltar para a lista de Cases</button>
+            <button class="btn-voltar-lista" onclick="voltarParaLista()">
+                <ion-icon name="list-outline"></ion-icon> Voltar para a lista de Cases
+            </button>
             
             <h1>Redução de 42% nos custos de infraestrutura AWS e deploy zero-downtime com EKS e Terraform</h1>
             
             <section class="case-section">
                 <h2>1. Contexto e Arquitetura Inicial</h2>
-                <p>O cliente possuía uma aplicação monolítica rodando em instâncias EC2 superdimensionadas (oversized) e gerenciadas de forma manual. Os deployments exigiam janelas de manutenção nas madrugadas, causando indisponibilidade frequente. Não havia visibilidade granular sobre os custos, resultando em desperdício em ambientes de homologação que ficavam ligados 24/7.</p>
+                <p>O cliente possuía uma aplicação em nuvem monolítica rodando em instâncias EC2 superdimensionadas (oversized) e gerenciadas de forma manual. Os deployments exigiam janelas de manutenção nas madrugadas, causando indisponibilidade frequente. Não havia visibilidade granular sobre os custos, resultando em desperdício em ambientes de homologação que ficavam ligados 24/7.</p>
             </section>
 
             <section class="case-section">
@@ -140,43 +182,46 @@
 
             <section class="case-section">
                 <h2>5. Resultados e Métricas</h2>
-                <table class="results-table">
-                    <thead>
-                        <tr>
-                            <th>Indicador</th>
-                            <th>Antes (EC2 Monolito)</th>
-                            <th>Depois (EKS + IaC)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Tempo de Deploy</td>
-                            <td>~2 horas (Downtime)</td>
-                            <td>12 minutos (Zero-Downtime)</td>
-                        </tr>
-                        <tr>
-                            <td>Disponibilidade (SLA)</td>
-                            <td>99.1%</td>
-                            <td>99.98%</td>
-                        </tr>
-                        <tr>
-                            <td>Custo Mensal AWS</td>
-                            <td>US$ 15.000</td>
-                            <td>US$ 8.700 <strong>(-42%)</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Recuperação (MTTR)</td>
-                            <td>4 horas</td>
-                            <td>15 minutos</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-scroll">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Indicador</th>
+                                <th>Antes (EC2 Monolito)</th>
+                                <th>Depois (EKS + IaC)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tempo de Deploy</td>
+                                <td>~2 horas (Downtime)</td>
+                                <td>12 minutos <strong>(Zero-Downtime)</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Disponibilidade (SLA)</td>
+                                <td>99.1%</td>
+                                <td>99.98%</td>
+                            </tr>
+                            <tr>
+                                <td>Custo Mensal AWS</td>
+                                <td>US$ 15.000</td>
+                                <td>US$ 8.700 <strong>(-42%)</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Recuperação (MTTR)</td>
+                                <td>4 horas</td>
+                                <td>15 minutos</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
             <section class="case-section">
                 <h2>6. Lições Aprendidas e Próximos Passos</h2>
                 <p>A adoção do EKS trouxe grande resiliência, mas a curva de aprendizado inicial da equipe de desenvolvimento foi um desafio. Para o futuro, mapeamos a implementação do Karpenter para um Auto Scaling de nós ainda mais rápido e agressivo, e a adoção de Chaos Engineering para testar a resiliência dos Pods em horário comercial.</p>
             </section>
+
             <section class="case-section tech-stack">
                 <h2>7. Tecnologias & Padrões Utilizados</h2>
                 <div class="tech-icons">
@@ -193,53 +238,249 @@
 
         <!-- CASE 2 COMPLETO -->
         <article id="case-2" class="case-content" style="display: none;">
-            <button class="btn-voltar-lista" onclick="voltarParaLista()"><ion-icon name="list-outline"></ion-icon> Voltar para a lista de Cases</button>
+            <button class="btn-voltar-lista" onclick="voltarParaLista()">
+                <ion-icon name="list-outline"></ion-icon> Voltar para a lista de Cases
+            </button>
             <h1>Otimização de CI/CD: Redução do Lead Time de 45 para 6 minutos com GitHub Actions</h1>
-            <p><em>(Conteúdo fictício para o Case 2... Siga a estrutura do Case 1 quando for preencher com seus dados reais.)</em></p>
+            
+            <section class="case-section">
+                <h2>1. Contexto e Desafio</h2>
+                <p>A equipe enfrentava deploys lentos, manuais e vulneráveis a falhas humanas, o que elevava o tempo total de envio (lead time) para produção a 45 minutos. A falta de testes de integração automatizados e builds inconsistentes frequentemente causava paradas em homologação.</p>
+            </section>
+
+            <section class="case-section">
+                <h2>2. Solução Implementada</h2>
+                <p>Criamos um fluxo de pipeline centralizado usando GitHub Actions com execuções paralelas para diminuir o gargalo. Implementamos testes automatizados integrados (linters, testes de unidade), cache avançado para dependências e build automatizado. O deploy passou a ser feito de maneira rápida e segura diretamente em ambientes da AWS por meio do GitHub Actions e rotinas de IAC.</p>
+            </section>
+
+            <section class="case-section">
+                <h2>3. Resultados Alcançados</h2>
+                <div class="table-scroll">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Indicador</th>
+                                <th>Antes (Deploys Manuais)</th>
+                                <th>Depois (Actions)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tempo de Pipeline (Lead Time)</td>
+                                <td>45 minutos</td>
+                                <td>6 minutos <strong>(-86%)</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Taxa de Sucesso de Builds</td>
+                                <td>~78%</td>
+                                <td>99.2%</td>
+                            </tr>
+                            <tr>
+                                <td>Falhas em Produção</td>
+                                <td>Frequentes</td>
+                                <td>Raras / Mitigadas nos testes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="case-section tech-stack">
+                <h2>4. Tecnologias & Padrões Utilizados</h2>
+                <div class="tech-icons">
+                    <i class="devicon-amazonwebservices-plain-wordmark colored" title="AWS"></i>
+                    <i class="devicon-githubactions-plain colored" title="GitHub Actions"></i>
+                    <i class="devicon-docker-plain colored" title="Docker"></i>
+                    <i class="devicon-git-plain colored" title="Git"></i>
+                    <i class="devicon-python-plain colored" title="Python"></i>
+                </div>
+            </section>
         </article>
 
         <!-- CASE 3 COMPLETO -->
         <article id="case-3" class="case-content" style="display: none;">
-            <button class="btn-voltar-lista" onclick="voltarParaLista()"><ion-icon name="list-outline"></ion-icon> Voltar para a lista de Cases</button>
+            <button class="btn-voltar-lista" onclick="voltarParaLista()">
+                <ion-icon name="list-outline"></ion-icon> Voltar para a lista de Cases
+            </button>
             <h1>Alta Disponibilidade (99.99%) e Disaster Recovery Multi-Region na AWS</h1>
-            <p><em>(Conteúdo fictício para o Case 3... Siga a estrutura do Case 1 quando for preencher com seus dados reais.)</em></p>
+            
+            <section class="case-section">
+                <h2>1. Arquitetura Proposta</h2>
+                <p>Para assegurar total continuidade de um sistema crítico do cliente, desenhamos e testamos uma arquitetura Multi-Region ativa-passiva altamente redundante e com replicação de dados em tempo real, garantindo resiliência total contra falhas em regiões completas da AWS.</p>
+            </section>
+
+            <section class="case-section">
+                <h2>2. Detalhes de Implementação</h2>
+                <ul>
+                    <li><strong>Failover Inteligente:</strong> AWS Route53 com verificações de saúde avançadas (health checks) para roteamento automático de tráfego.</li>
+                    <li><strong>Replicação de Dados:</strong> Banco de dados Amazon RDS em arquitetura Multi-AZ com replicação assíncrona entre regiões, S3 com replicação entre regiões (CRR).</li>
+                    <li><strong>Provisionamento Rápido:</strong> Ambientes descritos 100% via Terraform, garantindo reconstrução imediata através de pipeline de automação (IaC).</li>
+                </ul>
+            </section>
+
+            <section class="case-section">
+                <h2>3. Métricas de Resiliência</h2>
+                <div class="table-scroll">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Métrica</th>
+                                <th>Objetivo de Recuperação (RTO)</th>
+                                <th>Resultados Obtidos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>RTO (Tempo de recuperação)</td>
+                                <td>Menor que 30 minutos</td>
+                                <td>14 minutos (Failover Automatizado) <strong>(Sucesso)</strong></td>
+                            </tr>
+                            <tr>
+                                <td>RPO (Perda máxima de dados)</td>
+                                <td>Menor que 5 minutos</td>
+                                <td>Menor que 2 minutos (Sincronismo RDS e S3)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="case-section tech-stack">
+                <h2>4. Tecnologias & Padrões Utilizados</h2>
+                <div class="tech-icons">
+                    <i class="devicon-amazonwebservices-plain-wordmark colored" title="AWS"></i>
+                    <i class="devicon-terraform-plain colored" title="Terraform"></i>
+                    <i class="devicon-linux-plain colored" title="Linux"></i>
+                    <i class="devicon-git-plain colored" title="Git"></i>
+                </div>
+            </section>
         </article>
 
     </div>
 
-    <!-- Script para navegação SPA e Pesquisa -->
+    <!-- Script para Carrossel, navegação SPA e Pesquisa -->
     <script>
-        // Função para mostrar o case clicado e esconder a lista
-        function abrirCase(caseId) {
-            document.getElementById('cases-list-view').style.display = 'none';
+        // Array de Índices Visíveis (Muda dinamicamente com a barra de pesquisa)
+        let slideAtual = 0;
+        let cardsVisiveis = [];
+
+        // Inicializa o Carrossel na Carga do DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            atualizarVisibilidadeCards();
+        });
+
+        function atualizarVisibilidadeCards() {
+            const cards = Array.from(document.querySelectorAll('.case-card'));
+            cardsVisiveis = cards.filter(card => card.style.display !== 'none');
             
-            // Esconde todos os cases
-            const cases = document.querySelectorAll('.case-content');
-            cases.forEach(c => c.style.display = 'none');
-            
-            // Mostra o case selecionado
-            document.getElementById(caseId).style.display = 'block';
-            
-            // Rola para o topo da página suavemente
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Certifica-se de que o slide atual não está fora do escopo visível
+            if (slideAtual >= cardsVisiveis.length) {
+                slideAtual = 0;
+            }
+
+            // Ativa apenas o card de índice correspondente no grupo filtrado
+            cards.forEach(card => card.classList.remove('active'));
+            if (cardsVisiveis.length > 0) {
+                cardsVisiveis[slideAtual].classList.add('active');
+            }
+
+            construirBullets();
+            atualizarSetas();
         }
 
-        // Função para voltar para a lista de cases
-        function voltarParaLista() {
-            // Esconde todos os cases
-            const cases = document.querySelectorAll('.case-content');
-            cases.forEach(c => c.style.display = 'none');
-            
-            // Mostra a lista novamente
-            document.getElementById('cases-list-view').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Constrói os Bullets ou Números na parte inferior
+        function construirBullets() {
+            const containerBullets = document.getElementById('carouselBullets');
+            containerBullets.innerHTML = '';
+
+            cardsVisiveis.forEach((card, index) => {
+                const bullet = document.createElement('button');
+                bullet.classList.add('bullet');
+                if (index === slideAtual) {
+                    bullet.classList.add('active');
+                }
+                bullet.innerText = `0${index + 1}`; // Número em estilo console (01, 02)
+                bullet.title = `Ir para slide ${index + 1}`;
+                bullet.setAttribute('onclick', `irParaSlide(${index})`);
+                containerBullets.appendChild(bullet);
+            });
         }
 
-        // Função de filtro da barra de pesquisa
+        // Habilita/Desabilita Setas
+        function atualizarSetas() {
+            const btnPrev = document.querySelector('.btn-prev');
+            const btnNext = document.querySelector('.btn-next');
+
+            if (cardsVisiveis.length <= 1) {
+                btnPrev.style.opacity = '0.2';
+                btnPrev.style.pointerEvents = 'none';
+                btnNext.style.opacity = '0.2';
+                btnNext.style.pointerEvents = 'none';
+            } else {
+                btnPrev.style.opacity = '1';
+                btnPrev.style.pointerEvents = 'auto';
+                btnNext.style.opacity = '1';
+                btnNext.style.pointerEvents = 'auto';
+            }
+        }
+
+        // Mudar de Slide pelas Setas Laterais (Apoia Transições Infinitas)
+        function mudarSlide(direcao) {
+            if (cardsVisiveis.length <= 1) return;
+
+            slideAtual += direcao;
+            if (slideAtual >= cardsVisiveis.length) {
+                slideAtual = 0; // Vai pro primeiro
+            } else if (slideAtual < 0) {
+                slideAtual = cardsVisiveis.length - 1; // Vai pro último
+            }
+
+            atualizarVisibilidadeCards();
+        }
+
+        // Navegação Direta via ID ou Bullet de Rodapé
+        function irParaSlide(index) {
+            slideAtual = index;
+            atualizarVisibilidadeCards();
+        }
+
+        // Animações da Barra de Pesquisa Baseadas em Foco
+        function ativarBusca() {
+            const wrapper = document.getElementById('searchWrapper');
+            const icon = document.getElementById('searchIcon');
+            const cursor = document.getElementById('terminalCursor');
+            const msg = document.getElementById('statusMsg');
+
+            wrapper.classList.add('foco-busca');
+            icon.setAttribute('name', 'reload-outline'); 
+            msg.innerText = "varrendo cases de sucesso...";
+            cursor.style.display = 'none'; 
+        }
+
+        function desativarBusca() {
+            const wrapper = document.getElementById('searchWrapper');
+            const icon = document.getElementById('searchIcon');
+            const cursor = document.getElementById('terminalCursor');
+            const input = document.getElementById('searchInput');
+            const msg = document.getElementById('statusMsg');
+
+            wrapper.classList.remove('foco-busca');
+            icon.setAttribute('name', 'terminal-outline'); 
+            
+            if (input.value === '') {
+                msg.innerText = "Pronto para buscar";
+                cursor.style.display = 'inline-block'; 
+            } else {
+                msg.innerText = `${cardsVisiveis.length} registros encontrados`;
+            }
+        }
+
+        // Filtro com adaptação do carrossel em tempo real
         function filtrarCases() {
             const input = document.getElementById('searchInput');
             const filter = input.value.toLowerCase();
             const cards = document.getElementsByClassName('case-card');
+            const msg = document.getElementById('statusMsg');
 
             for (let i = 0; i < cards.length; i++) {
                 const title = cards[i].getElementsByClassName('case-title')[0].innerText;
@@ -251,6 +492,35 @@
                     cards[i].style.display = "none";
                 }
             }
+
+            // Reconstrói e ajusta as posições com base nos filtros
+            atualizarVisibilidadeCards();
+
+            if (filter !== '') {
+                msg.innerText = `pesquisando por "${filter}" (${cardsVisiveis.length} resultados)`;
+            }
+        }
+
+        // SPA: Abrir / Fechar os Cases
+        function abrirCase(caseId) {
+            document.getElementById('cases-list-view').style.display = 'none';
+            
+            const cases = document.querySelectorAll('.case-content');
+            cases.forEach(c => c.style.display = 'none');
+            
+            document.getElementById(caseId).style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function voltarParaLista() {
+            const cases = document.querySelectorAll('.case-content');
+            cases.forEach(c => c.style.display = 'none');
+            
+            document.getElementById('cases-list-view').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Força a redramatização do carrossel para assegurar a consistência visual
+            atualizarVisibilidadeCards();
         }
     </script>
 </body>

@@ -1,14 +1,62 @@
+<!-- 
+================================================================================
+  GUIA DE EVOLUÇÃO DE CARREIRA: COMO MARCAR UMA TECNOLOGIA COMO "DOMINADA"
+================================================================================
+  Quando você dominar uma tecnologia que antes estava "Em estudo", você deve:
+  1. Remover o <span> envelopador que tem a classe "skill-em-estudo".
+  2. Remover a tag <img> que carrega o spinner ("img/spinner.png").
+  3. Atualizar o atributo "title" para remover o "(Em estudo)".
+  
+  Isso fará com que o ícone ganhe sua cor original e a engrenagem suma, 
+  mostrando ao mercado que agora é uma habilidade ativa no seu arsenal!
+================================================================================
+
+  EXEMPLO 1: ÍCONE DE FONTE (Ex: Kubernetes, Terraform, Oracle)
+  
+  [COMO ESTÁ ANTES - EM ESTUDO]:
+  <span class="skill-em-estudo" title="Kubernetes (Em estudo)">
+      <i class="devicon-kubernetes-plain colored"></i>
+      <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+  </span>
+
+  [COMO DEVE FICAR - DOMINADO]:
+  <i class="devicon-kubernetes-plain colored" title="Kubernetes"></i>
+
+
+  ------------------------------------------------------------------------------
+
+
+  EXEMPLO 2: ÍCONE SVG CUSTOMIZADO (Ex: AWS EKS, ECS, CloudFormation, Datadog)
+  
+  [COMO ESTÁ ANTES - EM ESTUDO]:
+  <span class="skill-em-estudo custom-logo datadog-logo" title="Datadog (Em estudo)">
+      <img src="img/datadog_icon_v2.png" class="svg-tech-icon" alt="Datadog">
+      <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+  </span>
+
+  [COMO DEVE FICAR - DOMINADO]:
+  <span class="custom-logo datadog-logo" title="Datadog">
+      <img src="img/datadog_icon_v2.png" class="svg-tech-icon" alt="Datadog">
+  </span>
+  (Nota: Para SVGs, mantemos o <span> de classe "custom-logo" ou "datadog-logo" 
+  apenas para que o CSS continue controlando o tamanho do ícone, mas SEMPRE 
+  remova a classe "skill-em-estudo" e o <img> do spinner!)
+================================================================================
+-->
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <!-- Favicon do Portfólio (Bolinha no Navegador) -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portifólio João Victor</title>
+    <title>Portfólio // João Victor Santos — Cloud DevOps</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wdth,wght@0,75..100,100..900;1,75..100,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     
     <!-- Dev Icon Fonts -->
     <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
@@ -17,170 +65,346 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <!-- Overlay Global de Console -->
+    <div class="scanline"></div>
+
     <main id="container">
+        <!-- BARRA LATERAL: Identidade e Status -->
         <aside id="bio-container">
+            <div class="badge-git">git branch // v1.1.2</div>
+            
+            <div class="bio-img-wrapper">
+                <img id="bio-img" src="img/profile.jpeg" alt="João Victor Santos">
+                <span class="status-indicator" title="SysOps Active"></span>
+            </div>
+
             <h2>João Victor Santos</h2>
-            <img id="bio-img" src="img/profile.jpeg" alt="João Victor Santos">
-            <p>Olá, meu nome é João Victor e sou <span class="highlight">Cloud Solutions Architect</span>.</p>
-            <p id="welcom-text">Seja bem-vindo!</p>
+            <p class="role">Cloud Solutions Architect</p>
+            <p class="welcome">seja-bem-vindo ao meu console.sh</p>
+            
             <ul id="social-container">
-                <li><a href="https://www.linkedin.com/in/joão-victor-santos-de-assis-b938b133a" target="_blank" title="LinkedIn"><ion-icon name="logo-linkedin"></ion-icon></a></li>
+                <li><a href="https://linkedin.com/in/joão-victor-santos-de-assis-b938b133a" target="_blank" title="LinkedIn"><ion-icon name="logo-linkedin"></ion-icon></a></li>
                 <li><a href="https://wa.me/5577981357505" target="_blank" title="WhatsApp"><ion-icon name="logo-whatsapp"></ion-icon></a></li>
                 <li><a href="mailto:victor3456santos@gmail.com" title="E-mail"><ion-icon name="mail-outline"></ion-icon></a></li>
             </ul>
 
-            <!-- Currículo em HTML ainda será desenvolvido-->
-            <!-- Botão para o Currículo HTML -->
+
+            <!-- Botão de Currículo -->
             <div id="resume-container">
                 <a href="curriculo.html" id="btn-resume" title="Currículo" target="_blank">
-                    <ion-icon name="document-text-outline"></ion-icon>
-                    <span>Currículo</span>
+                    <ion-icon name="terminal-outline"></ion-icon>
+                    <span>CURRÍCULO</span>
+                    <span class="sub-btn">cat cv_jvictor.txt</span>
                 </a>
             </div>
+
+            <!-- Seção de Progresso e Estudos -->
+            <div id="progresso-estudos-container">
+                <p class="section-submenu">_estudos_atuais.sh</p>
+                <div id="lista-progresso">
+                    <!-- As barras de progresso ativas serão inseridas aqui dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Script de Automação de Estudos e Progresso -->
+            <script>
+                // Banco de dados de progresso. 
+                // Para ATIVAR uma tecnologia: remova as duas barras "//" do início de suas linhas.
+                // Para DESATIVAR uma tecnologia: adicione duas barras "//" no início de suas linhas.
+                const dadosProgresso = [
+                    // === 01 // CLOUD COMPUTING ===
+                    // { "tecnologia": "AWS", "iconClass": "devicon-amazonwebservices-plain-wordmark colored", "porcentagem": 90 },
+                    //{ "tecnologia": "Oracle Cloud", "iconClass": "devicon-oracle-original colored", "porcentagem": 15 },
+
+                    // === 02 // CONTAINERS & ORQUESTRAÇÃO ===
+                    // { "tecnologia": "Linux", "iconClass": "devicon-linux-plain colored", "porcentagem": 85 },
+                    // { "tecnologia": "Docker", "iconClass": "devicon-docker-plain colored", "porcentagem": 70 },
+                   // { "tecnologia": "Kubernetes", "iconClass": "devicon-kubernetes-plain colored", "porcentagem": 45 },
+                    // { "tecnologia": "Amazon EKS", "iconClass": "svg-tech-icon", "porcentagem": 20 },
+                    // { "tecnologia": "Amazon ECS", "iconClass": "svg-tech-icon", "porcentagem": 25 },
+
+                    // === 03 // CI/CD & SCRIPTING ===
+                    // { "tecnologia": "Git", "iconClass": "devicon-git-plain colored", "porcentagem": 80 },
+                    // { "tecnologia": "GitLab", "iconClass": "devicon-gitlab-plain colored", "porcentagem": 60 },
+                    // { "tecnologia": "GitHub", "iconClass": "devicon-github-original colored", "porcentagem": 75 },
+                    // { "tecnologia": "GitHub Actions", "iconClass": "devicon-githubactions-plain colored", "porcentagem": 40 },
+                    // { "tecnologia": "Python", "iconClass": "devicon-python-plain colored", "porcentagem": 30 },
+
+                    // === 04 // INFRAESTRUTURA COMO CÓDIGO (IAC) ===
+                    // { "tecnologia": "Terraform", "iconClass": "devicon-terraform-plain colored", "porcentagem": 75 },
+                    // { "tecnologia": "AWS CloudFormation", "iconClass": "svg-tech-icon", "porcentagem": 35 },
+
+                    // === 05 // OBSERVABILIDADE & MONITORAMENTO ===
+                    // { "tecnologia": "Prometheus", "iconClass": "devicon-prometheus-original colored", "porcentagem": 50 },
+                    // { "tecnologia": "Grafana", "iconClass": "devicon-grafana-original colored", "porcentagem": 40 },
+                    // { "tecnologia": "Datadog", "iconClass": "devicon-datadog-original colored", "porcentagem": 15 }
+
+                    // === 06 // INTELIGÊNCIA ARTIFICIAL ===
+                    // { "tecnologia": "PyTorch", "iconClass": "devicon-pytorch-original colored", "porcentagem": 10 },
+                    // { "tecnologia": "Hugging Face", "iconClass": "svg-tech-icon", "porcentagem": 15 },
+                    // { "tecnologia": "TensorFlow", "iconClass": "devicon-tensorflow-original colored", "porcentagem": 10 },
+                    // { "tecnologia": "OpenAI APIs", "iconClass": "devicon-openai-original colored", "porcentagem": 5 }
+                ];
+
+                function carregarProgresso() {
+                    try {
+                        const container = document.getElementById('lista-progresso');
+                        if (!container) return;
+                        
+                        container.innerHTML = ''; // Limpa a área antes de construir
+                        let exibiuItens = false;
+                        
+                        // Verifica se o array foi definido e contém itens válidos
+                        if (typeof dadosProgresso !== 'undefined' && dadosProgresso.length > 0) {
+                            dadosProgresso.forEach(item => {
+                                // Criação do template HTML para cada item de estudo ativo
+                                const itemHTML = `
+                                    <div class="progresso-item">
+                                        <div class="progresso-header">
+                                            <span class="progresso-tecnologia">
+                                                <i class="${item.iconClass}"></i>
+                                                <span>${item.tecnologia}</span>
+                                            </span>
+                                            <span class="progresso-porcentagem">${item.porcentagem}%</span>
+                                        </div>
+                                        <div class="progresso-barra-bg">
+                                            <div class="progresso-barra-fill" style="width: ${item.porcentagem}%"></div>
+                                        </div>
+                                    </div>
+                                `;
+                                container.innerHTML += itemHTML;
+                                exibiuItens = true;
+                            });
+                        }
+
+                        // Caso nenhuma tecnologia esteja ativa, exibe uma mensagem amigável no console
+                        if (!exibiuItens) {
+                            container.innerHTML = '<p class="section-desc" style="font-size: 11px; opacity: 0.5;">Nenhum estudo ativo no pipeline.</p>';
+                        }
+                    } catch (erro) {
+                        console.error("Erro ao carregar o progresso do pipeline:", erro);
+                    }
+                }
+
+                // Dispara o carregamento assim que o navegador finalizar a leitura da página
+                document.addEventListener('DOMContentLoaded', carregarProgresso);
+            </script>
         </aside>
+
+        <!-- CONTEÚDO PRINCIPAL: Dashboards e Projetos -->
         <section id="about-container">
+            <div class="terminal-header">
+                <span class="header-dots"></span>
+                <span class="term-title">user@jhon:~$ view profile_full</span>
+            </div>
+
             <h1 id="name">João Victor Santos</h1>
-            <p id="title"><span class="highlight">Cloud Solutions Architect</span></p>
-            <p class="description">Sou um profissional de Cloud Operations <span class="highlight">certificado</span> como AWS Solutions Architect - Associate, com o objetivo de consolidar minha carreira como DevOps Engineer e AI Engineer. Atualmente, atuo como SysOps Trainee na Mytech, <span class="highlight">garantindo a disponibilidade, o monitoramento e a modernização de ambientes em nuvem críticos</span>. Minha vivência engloba a administração de recursos AWS (EC2, RDS, VPC), automação com Lambda e EventBridge, e a manutenção de Infraestrutura como Código (IaC) com Terraform e CloudFormation. Como parte da minha evolução técnica, <span class="highlight">busco o domínio do ecossistema DevOps, aplicando ativamente no meu dia a dia</span>.</p>
-            <p class="description">Além do conhecimento tecnológico, impulsionado pela graduação em Análise e Desenvolvimento de Sistemas, trago a maturidade de mais de quatro anos no setor corporativo atuando com parametrização de sistemas e análise de dados. Essa trajetória <span class="highlight">me conferiu capacidade analítica, comunicação clara com o cliente e forte foco na resolução de problemas</span>. Sou movido pela melhoria contínua, aprimorando gradativamente meu inglês e expandindo meus estudos para explorar as novas fronteiras da automação inteligente e da Inteligência Artificial.</span></p>
+            <p id="title">sysOps & cloud solutions architect <span class="highlight">_</span></p>
             
-            <!-- Botões de Ação -->
+            <!-- Descrição e Bio (v1.1.2) -->
+            <p class="description">
+                Olá, sou o <span class="highlight-var">João Victor Santos</span>. Bem-vindo ao meu espaço de Cloud Operations e DevOps. Atualmente, integro o time de consultoria AWS na <span class="highlight-var">Mytech</span>, acumulando quase 2 anos de experiência prática e diária na <span class="highlight-code">sustentação, automação e monitoramento de ambientes críticos em nuvem</span>. Minha rotina envolve garantir a alta disponibilidade e segurança de recursos como Amazon EC2, RDS e S3, além de gerenciar redes e permissões com VPC, IAM e CloudTrail. Atuo ativamente no desenvolvimento de automações usando AWS Lambda e EventBridge, no apoio à infraestrutura como código (IaC) com Terraform e CloudFormation, e na documentação e otimização de ambientes baseados em logs e métricas.
+            </p>
+            
+            <p class="description">
+                Com a certificação <span class="highlight-var">AWS Solutions Architect – Associate</span>, utilizo Linux, Docker, Git e GitHub para otimizar pipelines e trago a bagagem de mais de 4 anos de atuação anterior com <span class="highlight-code">auditoria e conformidade de sistemas corporativos complexos</span>, o que me deu o rigor e a disciplina necessários para manter ambientes estáveis sob pressão.
+            </p>
+
+            <!-- Separador Estético e Chamada do Portfólio (CTA) -->
+            <div class="cta-divider-container">
+                <div class="cta-terminal-line">
+                    <span class="cta-prompt">jvictor-portfolio ~ %</span>
+                    <span class="cta-command">cat explorar_projetos.sh</span>
+                </div>
+                <p class="description-footer">
+                    <ion-icon name="rocket-outline"></ion-icon>
+                    <span>Aqui você pode explorar os projetos de arquitetura, automação e otimização de nuvem que desenvolvo para transformar desafios operacionais em infraestruturas imutáveis e escaláveis.</span>
+                </p>
+            </div>
+            
+            <!-- Painel de Ações -->
             <div id="action-buttons">
-                <!-- Botão Credly (Esquerda) -->
-                <a href="https://www.credly.com/users/joao-victor.99ef65ec" target="_blank" id="btn-credly">
-                    <ion-icon name="ribbon-outline"></ion-icon> <span>Ver Credenciais</span>
+                <a href="https://www.credly.com/users/joao-victor.99ef65ec" target="_blank" id="btn-credly" class="action-btn">
+                    <ion-icon name="ribbon-outline"></ion-icon> <span>VER CREDENCIAIS</span>
                 </a>
                 
-                <!-- Botão GitHub (Centro) -->
-                <a href="https://github.com/JoaoVictor85" target="_blank" id="btn-projects">
-                    <ion-icon name="share-social-outline"></ion-icon> <span>Ver Projetos</span>
+                <a href="https://github.com/JoaoVictor85" target="_blank" id="btn-projects" class="action-btn">
+                    <ion-icon name="logo-github"></ion-icon> <span>VER PROJETOS</span>
                 </a>
 
-                <!-- Página de Case e Cases ainda em Desenvolvimento -->
-                <!-- Botão Cases (Direita) -->
-                <a href="cases.html" id="btn-cases">
-                    <ion-icon name="briefcase-outline"></ion-icon> <span>Ver Cases</span>
+                <a href="cases.html" id="btn-cases" class="action-btn">
+                    <ion-icon name="pulse-outline"></ion-icon> <span>VER CASES <span class="badge-dev">NOVO</span></span>
                 </a>
             </div>
-            <h2 id="skills-section-title">Minhas Skills</h2>
-            <p class="description">Conheça os meus domínios:</p>
-            <div id="skills-container">
 
+            <!-- SKILLS SECTION -->
+            <h2 id="skills-section-title">Minhas Skills // Recursos e Domínios</h2>
+            <p class="section-desc">Pipeline de especializações técnicas e ambientes em sustentação:</p>
+            
+            <div id="skills-container">
                 <!-- Bloco 1: Cloud Computing -->
                 <div class="skills-box">
-                    <p class="skills-title">Cloud Computing</p>
-                    
-                    <i class="devicon-amazonwebservices-plain-wordmark colored" title="AWS"></i>
-                    
-                    <!-- Oracle Cloud com Spinner -->
-                    <span class="skill-em-estudo" title="Oracle Cloud (Em estudo)">
-                        <i class="devicon-oracle-original colored"></i>
-                        <img src="img/spinner.png" class="loading-spinner" alt="Carregando">
-                    </span>
+                    <p class="skills-title">01 // Cloud Computing</p>
+                    <div class="tech-row">
+                        <i class="devicon-amazonwebservices-plain-wordmark colored" title="AWS"></i>
+                        <span class="skill-em-estudo" title="Oracle Cloud (Em estudo)">
+                            <i class="devicon-oracle-original colored"></i>
+                            <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Bloco 2: Containers & Orquestração -->
                 <div class="skills-box">
-                    <p class="skills-title">Containers & Orquestração</p>
-                    
-                    <i class="devicon-linux-plain colored" title="Linux"></i>
-                    <i class="devicon-docker-plain colored" title="Docker"></i>
-                
-                    <span class="skill-em-estudo" title="Kubernetes (Em estudo)">
-                        <i class="devicon-kubernetes-plain colored"></i>
-                        <img src="img/spinner.png" class="loading-spinner" alt="Carregando">
-                    </span>
+                    <p class="skills-title">02 // Containers & Orquestração</p>
+                    <div class="tech-row">
+                        <i class="devicon-linux-plain colored" title="Linux"></i>
+                        <i class="devicon-docker-plain colored" title="Docker"></i>
+                        <span class="skill-em-estudo" title="Kubernetes (Em estudo)">
+                            <i class="devicon-kubernetes-plain colored"></i>
+                            <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                        </span>
+                        
+                        <!-- Amazon EKS Original -->
+                        <span class="skill-em-estudo" title="Amazon EKS (Em estudo)">
+                            <svg viewBox="0 0 80 80" class="svg-tech-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <defs>
+                                    <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="linearGradient-eks">
+                                        <stop stop-color="#C8511B" offset="0%"></stop>
+                                        <stop stop-color="#FF9900" offset="100%"></stop>
+                                    </linearGradient>
+                                </defs>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g fill="url(#linearGradient-eks)">
+                                        <rect x="0" y="0" width="80" height="80" rx="10"></rect>
+                                    </g>
+                                    <g transform="translate(8.000000, 8.000000)" fill="#FFFFFF">
+                                        <path d="M53.239,53.377026 L31.737,53.355026 C29.133,53.352026 26.906,51.416026 26.667,48.949026 C26.647,48.743026 26.636,48.528026 26.636,48.305026 C26.636,44.929026 28.968,43.798026 30.391,43.422026 C30.849,43.328026 31.189,42.922026 31.189,42.441026 C31.189,42.394026 31.186,42.347026 31.179,42.300026 C31.145,42.004026 31.128,41.702026 31.128,41.396026 C31.128,38.613026 33.046,35.621026 35.494,34.584026 C39.745,32.786026 42.754,35.151026 43.852,36.253026 C44.751,37.154026 45.453,38.309026 45.938,39.684026 C46.062,40.033026 46.368,40.286026 46.734,40.340026 C47.097,40.394026 47.467,40.243026 47.686,39.945026 C48.322,39.085026 49.352,38.708026 50.307,38.988026 C51.477,39.330026 52.253,40.541026 52.393,42.238026 C52.342,42.756026 52.7,43.231026 53.218,43.320026 C54.587,43.556026 57.769,44.517026 57.769,48.356026 C57.769,52.839026 53.626,53.338026 53.239,53.377026 L53.239,53.377026 Z M29.444,57.862026 L6,45.398026 L6,18.570026 L26,6.75202604 L26,16.451026 L15.463,23.156026 C15.175,23.339026 15,23.658026 15,24.000026 L15,40.000026 C15,40.373026 15.208,40.714026 15.538,40.887026 L24.901,45.758026 L25.04,45.835026 C24.784,46.592026 24.636,47.415026 24.636,48.305026 C24.636,48.594026 24.651,48.872026 24.677,49.140026 C25.012,52.621026 28.113,55.351026 31.735,55.355026 L33.982,55.356026 L29.444,57.862026 Z M44.504,23.136026 L33,16.425026 L33,6.75202604 L53,18.570026 L53,38.467026 C52.431,37.803026 51.716,37.316026 50.868,37.068026 C49.616,36.703026 48.308,36.926026 47.245,37.637026 C46.718,36.567026 46.056,35.631026 45.268,34.841026 C45.182,34.755026 45.088,34.689026 45,34.606026 L45,24.000026 C45,23.644026 44.811,23.315026 44.504,23.136026 L44.504,23.136026 Z M55,41.726026 L55,18.000026 C55,17.646026 54.813,17.318026 54.509,17.139026 L32.509,4.13902604 C32.199,3.95602604 31.817,3.95402604 31.504,4.13102604 C31.192,4.30902604 31,4.64102604 31,5.00002604 L31,17.000026 C31,17.355026 31.188,17.684026 31.496,17.863026 L43,24.574026 L43,33.118026 C40.483,31.714026 37.537,31.548026 34.715,32.742026 C33.725,33.161026 32.827,33.828026 32.037,34.629026 L29.011,31.120026 L35.842,23.199026 L33.18,23.199026 L27,30.000026 L27,23.000026 L25,23.000026 L25,40.000026 L27,40.000026 L27,32.000026 L30.682,36.311026 C29.714,37.841026 29.128,39.633026 29.128,41.396026 C29.128,41.505026 29.13,41.614026 29.133,41.723026 C27.785,42.216026 26.712,43.027026 25.946,44.073026 L17,39.393026 L17,24.548026 L27.537,17.843026 C27.825,17.660026 28,17.341026 28,17.000026 L28,5.00002604 C28,4.64102604 27.807,4.30902604 27.496,4.13102604 C27.183,3.95402604 26.802,3.95602604 26.491,4.13902604 L4.491,17.139026 C4.186,17.318026 4,17.646026 4,18.000026 L4,46.000026 C4,46.369026 4.204,46.709026 4.53,46.882026 L28.983,59.882026 C29.131,59.960026 29.292,60.000026 29.453,60.000026 C29.62,60.000026 29.786,59.958026 29.936,59.875026 L38.114,55.360026 L53.319,55.374026 C55.551,55.192026 59.769,53.492026 59.769,48.356026 C59.769,44.678026 57.505,42.603026 55,41.726026 L55,41.726026 Z"></path>
+                                    </g>
+                                </g>
+                            </svg>
+                            <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                        </span>
 
-                    <!-- Ícone original do Amazon EKS em SVG com Spinner -->
-                    <span class="skill-em-estudo" title="Amazon EKS (Em estudo)">
-                        <svg viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs>
-                                <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="linearGradient-eks">
-                                    <stop stop-color="#C8511B" offset="0%"></stop>
-                                    <stop stop-color="#FF9900" offset="100%"></stop>
-                                </linearGradient>
-                            </defs>
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <g fill="url(#linearGradient-eks)">
-                                    <rect x="0" y="0" width="80" height="80" rx="10"></rect>
+                        <!-- Amazon ECS Original -->
+                        <span class="skill-em-estudo" title="Amazon ECS (Em estudo)">
+                            <svg viewBox="0 0 80 80" class="svg-tech-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <defs>
+                                    <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="linearGradient-ecs-original">
+                                        <stop stop-color="#C8511B" offset="0%"></stop>
+                                        <stop stop-color="#FF9900" offset="100%"></stop>
+                                    </linearGradient>
+                                </defs>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g fill="url(#linearGradient-ecs-original)">
+                                        <rect x="0" y="0" width="80" height="80" rx="10"></rect>
+                                    </g>
+                                    <path d="M64,48.2340095 L56,43.4330117 L56,32.0000169 C56,31.6440171 55.812,31.3150172 55.504,31.1360173 L44,24.4260204 L44,14.7520248 L64,26.5710194 L64,48.2340095 Z M65.509,25.13902 L43.509,12.139026 C43.199,11.9560261 42.818,11.9540261 42.504,12.131026 C42.193,12.3090259 42,12.6410257 42,13.0000256 L42,25.0000201 C42,25.3550199 42.189,25.6840198 42.496,25.8640197 L54,32.5740166 L54,44.0000114 C54,44.3510113 54.185,44.6770111 54.486,44.857011 L64.486,50.8570083 C64.644,50.9520082 64.822,51 65,51 C65.17,51 65.34,50.9570082 65.493,50.8700083 C65.807,50.6930084 66,50.3600085 66,50 L66,26.0000196 C66,25.6460198 65.814,25.31902 65.509,25.13902 Z M40.445,66.863001 L17,54.3990067 L17,26.5710194 L37,14.7520248 L37,24.4510204 L26.463,31.1560173 C26.175,31.3400172 26,31.6580171 26,32.0000169 L26,49.0000091 C26,49.373009 26.208,49.7150088 26.538,49.8870087 L39.991,56.8870055 C40.28,57.0370055 40.624,57.0380055 40.912,56.8880055 L53.964,50.1440086 L61.996,54.9640064 L40.445,66.863001 Z M64.515,54.1420068 L54.515,48.1420095 C54.217,47.9640096 53.849,47.9520096 53.541,48.1120095 L40.455,54.8730065 L28,48.3930094 L28,32.5490167 L38.537,25.8440197 C38.825,25.6600198 39,25.3420199 39,25.0000201 L39,13.0000256 C39,12.6410257 38.808,12.3090259 38.496,12.131026 C38.184,11.9540261 37.802,11.9560261 37.491,12.139026 L15.491,25.13902 C15.187,25.31902 15,25.6460198 15,26.0000196 L15,55 C15,55.3690062 15.204,55.7090061 15.53,55.883006 L39.984,68.8830001 C40.131,68.961 40.292,69 40.453,69 C40.62,69 40.786,68.958 40.937,68.8750001 L64.484,55.875006 C64.797,55.7020061 64.993,55.3750062 65.0001416,55.0180064 C65.006,54.6600066 64.821,54.3260067 64.515,54.1420068 L64.515,54.1420068 Z" fill="#FFFFFF"></path>
                                 </g>
-                                <g transform="translate(8.000000, 8.000000)" fill="#FFFFFF">
-                                    <path d="M53.239,53.377026 L31.737,53.355026 C29.133,53.352026 26.906,51.416026 26.667,48.949026 C26.647,48.743026 26.636,48.528026 26.636,48.305026 C26.636,44.929026 28.968,43.798026 30.391,43.422026 C30.849,43.328026 31.189,42.922026 31.189,42.441026 C31.189,42.394026 31.186,42.347026 31.179,42.300026 C31.145,42.004026 31.128,41.702026 31.128,41.396026 C31.128,38.613026 33.046,35.621026 35.494,34.584026 C39.745,32.786026 42.754,35.151026 43.852,36.253026 C44.751,37.154026 45.453,38.309026 45.938,39.684026 C46.062,40.033026 46.368,40.286026 46.734,40.340026 C47.097,40.394026 47.467,40.243026 47.686,39.945026 C48.322,39.085026 49.352,38.708026 50.307,38.988026 C51.477,39.330026 52.253,40.541026 52.393,42.238026 C52.342,42.756026 52.7,43.231026 53.218,43.320026 C54.587,43.556026 57.769,44.517026 57.769,48.356026 C57.769,52.839026 53.626,53.338026 53.239,53.377026 L53.239,53.377026 Z M29.444,57.862026 L6,45.398026 L6,18.570026 L26,6.75202604 L26,16.451026 L15.463,23.156026 C15.175,23.339026 15,23.658026 15,24.000026 L15,40.000026 C15,40.373026 15.208,40.714026 15.538,40.887026 L24.901,45.758026 L25.04,45.835026 C24.784,46.592026 24.636,47.415026 24.636,48.305026 C24.636,48.594026 24.651,48.872026 24.677,49.140026 C25.012,52.621026 28.113,55.351026 31.735,55.355026 L33.982,55.356026 L29.444,57.862026 Z M44.504,23.136026 L33,16.425026 L33,6.75202604 L53,18.570026 L53,38.467026 C52.431,37.803026 51.716,37.316026 50.868,37.068026 C49.616,36.703026 48.308,36.926026 47.245,37.637026 C46.718,36.567026 46.056,35.631026 45.268,34.841026 C45.182,34.755026 45.088,34.689026 45,34.606026 L45,24.000026 C45,23.644026 44.811,23.315026 44.504,23.136026 L44.504,23.136026 Z M55,41.726026 L55,18.000026 C55,17.646026 54.813,17.318026 54.509,17.139026 L32.509,4.13902604 C32.199,3.95602604 31.817,3.95402604 31.504,4.13102604 C31.192,4.30902604 31,4.64102604 31,5.00002604 L31,17.000026 C31,17.355026 31.188,17.684026 31.496,17.863026 L43,24.574026 L43,33.118026 C40.483,31.714026 37.537,31.548026 34.715,32.742026 C33.725,33.161026 32.827,33.828026 32.037,34.629026 L29.011,31.120026 L35.842,23.199026 L33.18,23.199026 L27,30.000026 L27,23.000026 L25,23.000026 L25,40.000026 L27,40.000026 L27,32.000026 L30.682,36.311026 C29.714,37.841026 29.128,39.633026 29.128,41.396026 C29.128,41.505026 29.13,41.614026 29.133,41.723026 C27.785,42.216026 26.712,43.027026 25.946,44.073026 L17,39.393026 L17,24.548026 L27.537,17.843026 C27.825,17.660026 28,17.341026 28,17.000026 L28,5.00002604 C28,4.64102604 27.807,4.30902604 27.496,4.13102604 C27.183,3.95402604 26.802,3.95602604 26.491,4.13902604 L4.491,17.139026 C4.186,17.318026 4,17.646026 4,18.000026 L4,46.000026 C4,46.369026 4.204,46.709026 4.53,46.882026 L28.983,59.882026 C29.131,59.960026 29.292,60.000026 29.453,60.000026 C29.62,60.000026 29.786,59.958026 29.936,59.875026 L38.114,55.360026 L53.319,55.374026 C55.551,55.192026 59.769,53.492026 59.769,48.356026 C59.769,44.678026 57.505,42.603026 55,41.726026 L55,41.726026 Z"></path>
-                                </g>
-                            </g>
-                        </svg>
-                        <img src="img/spinner.png" class="loading-spinner" alt="Carregando">
-                    </span>
-
-                    <!-- Ícone original do Amazon ECS em SVG com Spinner -->
-                    <span class="skill-em-estudo" title="Amazon ECS (Em estudo)">
-                        <svg viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs>
-                                <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="linearGradient-ecs">
-                                    <stop stop-color="#C8511B" offset="0%"></stop>
-                                    <stop stop-color="#FF9900" offset="100%"></stop>
-                                </linearGradient>
-                            </defs>
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <g fill="url(#linearGradient-ecs)">
-                                    <rect x="0" y="0" width="80" height="80" rx="10"></rect>
-                                </g>
-                                <path d="M64,48.2340095 L56,43.4330117 L56,32.0000169 C56,31.6440171 55.812,31.3150172 55.504,31.1360173 L44,24.4260204 L44,14.7520248 L64,26.5710194 L64,48.2340095 Z M65.509,25.13902 L43.509,12.139026 C43.199,11.9560261 42.818,11.9540261 42.504,12.131026 C42.193,12.3090259 42,12.6410257 42,13.0000256 L42,25.0000201 C42,25.3550199 42.189,25.6840198 42.496,25.8640197 L54,32.5740166 L54,44.0000114 C54,44.3510113 54.185,44.6770111 54.486,44.857011 L64.486,50.8570083 C64.644,50.9520082 64.822,51 65,51 C65.17,51 65.34,50.9570082 65.493,50.8700083 C65.807,50.6930084 66,50.3600085 66,50 L66,26.0000196 C66,25.6460198 65.814,25.31902 65.509,25.13902 L65.509,25.13902 Z M40.445,66.863001 L17,54.3990067 L17,26.5710194 L37,14.7520248 L37,24.4510204 L26.463,31.1560173 C26.175,31.3400172 26,31.6580171 26,32.0000169 L26,49.0000091 C26,49.373009 26.208,49.7150088 26.538,49.8870087 L39.991,56.8870055 C40.28,57.0370055 40.624,57.0380055 40.912,56.8880055 L53.964,50.1440086 L61.996,54.9640064 L40.445,66.863001 Z M64.515,54.1420068 L54.515,48.1420095 C54.217,47.9640096 53.849,47.9520096 53.541,48.1120095 L40.455,54.8730065 L28,48.3930094 L28,32.5490167 L38.537,25.8440197 C38.825,25.6600198 39,25.3420199 39,25.0000201 L39,13.0000256 C39,12.6410257 38.808,12.3090259 38.496,12.131026 C38.184,11.9540261 37.802,11.9560261 37.491,12.139026 L15.491,25.13902 C15.187,25.31902 15,25.6460198 15,26.0000196 L15,55 C15,55.3690062 15.204,55.7090061 15.53,55.883006 L39.984,68.8830001 C40.131,68.961 40.292,69 40.453,69 C40.62,69 40.786,68.958 40.937,68.8750001 L64.484,55.875006 C64.797,55.7020061 64.993,55.3750062 65.0001416,55.0180064 C65.006,54.6600066 64.821,54.3260067 64.515,54.1420068 L64.515,54.1420068 Z" fill="#FFFFFF"></path>
-                            </g>
-                        </svg>
-                        <img src="img/spinner.png" class="loading-spinner" alt="Carregando">
-                    </span>
+                            </svg>
+                            <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Bloco 3: CI/CD & Scripting -->
                 <div class="skills-box">
-                    <p class="skills-title">CI/CD & Scripting</p>
-                    
-                    <i class="devicon-git-plain colored" title="Git"></i>
-                    <i class="devicon-gitlab-plain colored" title="GitLab"></i>
-                    <i class="devicon-github-original colored" title="GitHub"></i>
-                    
-                    <!-- GitHub Actions com Spinner -->
-                    <span class="skill-em-estudo" title="GitHub Actions (Em estudo)">
-                        <i class="devicon-githubactions-plain colored"></i>
-                        <img src="img/spinner.png" class="loading-spinner" alt="Carregando">
-                    </span>
-
-                    <!-- Python com Spinner -->
-                    <span class="skill-em-estudo" title="Python (Em estudo)">
-                        <i class="devicon-python-plain colored"></i>
-                        <img src="img/spinner.png" class="loading-spinner" alt="Carregando">
-                    </span>
+                    <p class="skills-title">03 // CI/CD & Scripting</p>
+                    <div class="tech-row">
+                        <i class="devicon-git-plain colored" title="Git"></i>
+                        <i class="devicon-gitlab-plain colored" title="GitLab"></i>
+                        <i class="devicon-github-original colored" title="GitHub"></i>
+                        <span class="skill-em-estudo" title="GitHub Actions (Em estudo)">
+                            <i class="devicon-githubactions-plain colored"></i>
+                            <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                        </span>
+                        <span class="skill-em-estudo" title="Python (Em estudo)">
+                            <i class="devicon-python-plain colored"></i>
+                            <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Bloco 4: Infraestrutura como Código (IaC) -->
                 <div class="skills-box">
-                    <p class="skills-title">Infraestrutura como Código (IaC)</p>
-                    
-                    <!-- Terraform com Spinner -->
-                    <span class="skill-em-estudo" title="Terraform (Em estudo)">
-                        <i class="devicon-terraform-plain colored"></i>
-                        <img src="img/spinner.png" class="loading-spinner" alt="Carregando">
-                    </span>
-                    
-                    <!-- AWS CloudFormation com Spinner -->
-                    <span class="skill-em-estudo skill-cloudformation" title="AWS CloudFormation (Em estudo)">
-                        <svg viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs>
-                                <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="linearGradient-1">
-                                    <stop stop-color="#B0084D" offset="0%"></stop>
-                                    <stop stop-color="#FF4F8B" offset="100%"></stop>
-                                </linearGradient>
-                            </defs>
-                            <g id="Icon-Architecture/64/Arch_AWS-CloudFormation_64" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <g id="Icon-Architecture-BG/64/Management-Governance" fill="url(#linearGradient-1)">
-                                    <rect id="Rectangle" x="0" y="0" width="80" height="80" rx="10"></rect>
+                    <p class="skills-title">04 // Infraestrutura como Código (IaC)</p>
+                    <div class="tech-row">
+                        <span class="skill-em-estudo" title="Terraform (Em estudo)">
+                            <i class="devicon-terraform-plain colored"></i>
+                            <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                        </span>
+                        
+                        <!-- AWS CloudFormation Original -->
+                        <span class="skill-em-estudo skill-cloudformation" title="AWS CloudFormation (Em estudo)">
+                            <svg viewBox="0 0 80 80" class="svg-tech-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <defs>
+                                    <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="linearGradient-cloudformation-original">
+                                        <stop stop-color="#B0084D" offset="0%"></stop>
+                                        <stop stop-color="#FF4F8B" offset="100%"></stop>
+                                    </linearGradient>
+                                </defs>
+                                <g id="Icon-Architecture/64/Arch_AWS-CloudFormation_64" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Icon-Architecture-BG/64/Management-Governance" fill="url(#linearGradient-cloudformation-original)">
+                                        <rect id="Rectangle" x="0" y="0" width="80" height="80" rx="10"></rect>
+                                    </g>
+                                    <path d="M53,39.9632039 L58,39.9632039 L58,37.9601375 L53,37.9601375 L53,39.9632039 Z M28,51.9816019 L33,51.9816019 L33,49.9785356 L28,49.9785356 L28,51.9816019 Z M18,51.9816019 L25,51.9816019 L25,49.9785356 L18,49.9785356 L18,51.9816019 Z M18,45.9724029 L30,45.9724029 L30,43.9693366 L18,43.9693366 L18,45.9724029 Z M18,33.9540048 L27,33.9540048 L27,31.9509385 L18,31.9509385 L18,33.9540048 Z M18,39.9632039 L51,39.9632039 L51,37.9601375 L18,37.9601375 L18,39.9632039 Z M37,61.9969337 L14,61.9969337 L14,27.9448058 L37,27.9448058 L37,35.9570712 L39,35.9570712 L39,26.9432726 C39,26.3904263 38.552,25.9417395 38,25.9417395 L13,25.9417395 C12.447,25.9417395 12,26.3904263 12,26.9432726 L12,62.9984668 C12,63.5513131 12.447,64 13,64 L38,64 C38.552,64 39,63.5513131 39,62.9984668 L39,42.9678034 L37,42.9678034 L37,61.9969337 Z M68,36.9586044 C68,43.4305117 62.173,45.6819583 59.092,45.9683968 L43,45.9724029 L43,43.9693366 L59,43.9693366 L59,43.9693366 C59.195,43.9463013 66,43.2121775 66,36.9586044 C66,31.2638867 60.863,30.1081175 59.834,29.9338507 C59.321,29.8467173 58.96,29.3820059 59.004,28.8632117 C59.005,28.8441826 59.007,28.826155 59.009,28.8081274 C58.954,25.5902013 56.981,24.584662 56.126,24.3002266 C54.53,23.769414 52.751,24.2771913 51.81,25.5391231 C51.591,25.8355769 51.229,25.9868085 50.861,25.9307226 C50.497,25.8756383 50.192,25.625255 50.068,25.2767214 C49.447,23.5360568 48.546,22.4083304 47.293,21.1534094 C44.159,18.0386412 39.905,17.1783242 35.925,18.8528877 C33.837,19.7332353 32.012,21.7282894 30.922,24.327268 L29.078,23.5500782 C30.37,20.4743699 32.584,18.0887179 35.15,17.007062 C39.905,15.0049972 44.971,16.0255595 48.704,19.7342369 C49.774,20.8068789 50.66,21.851478 51.35,23.2035478 C52.843,22.0978551 54.857,21.7673492 56.757,22.3993166 C59.189,23.2085554 60.727,25.3207889 60.975,28.1290879 C64.381,28.9884034 68,31.7115721 68,36.9586044 L68,36.9586044 Z" id="AWS-CloudFormation_Icon_64_Squid" fill="#FFFFFF"></path>
                                 </g>
-                                <path d="M53,39.9632039 L58,39.9632039 L58,37.9601375 L53,37.9601375 L53,39.9632039 Z M28,51.9816019 L33,51.9816019 L33,49.9785356 L28,49.9785356 L28,51.9816019 Z M18,51.9816019 L25,51.9816019 L25,49.9785356 L18,49.9785356 L18,51.9816019 Z M18,45.9724029 L30,45.9724029 L30,43.9693366 L18,43.9693366 L18,45.9724029 Z M18,33.9540048 L27,33.9540048 L27,31.9509385 L18,31.9509385 L18,33.9540048 Z M18,39.9632039 L51,39.9632039 L51,37.9601375 L18,37.9601375 L18,39.9632039 Z M37,61.9969337 L14,61.9969337 L14,27.9448058 L37,27.9448058 L37,35.9570712 L39,35.9570712 L39,26.9432726 C39,26.3904263 38.552,25.9417395 38,25.9417395 L13,25.9417395 C12.447,25.9417395 12,26.3904263 12,26.9432726 L12,62.9984668 C12,63.5513131 12.447,64 13,64 L38,64 C38.552,64 39,63.5513131 39,62.9984668 L39,42.9678034 L37,42.9678034 L37,61.9969337 Z M68,36.9586044 C68,43.4305117 62.173,45.6819583 59.092,45.9683968 L43,45.9724029 L43,43.9693366 L59,43.9693366 C59.195,43.9463013 66,43.2121775 66,36.9586044 C66,31.2638867 60.863,30.1081175 59.834,29.9338507 C59.321,29.8467173 58.96,29.3820059 59.004,28.8632117 C59.005,28.8441826 59.007,28.826155 59.009,28.8081274 C58.954,25.5902013 56.981,24.584662 56.126,24.3002266 C54.53,23.769414 52.751,24.2771913 51.81,25.5391231 C51.591,25.8355769 51.229,25.9868085 50.861,25.9307226 C50.497,25.8756383 50.192,25.625255 50.068,25.2767214 C49.447,23.5360568 48.546,22.4083304 47.293,21.1534094 C44.159,18.0386412 39.905,17.1783242 35.925,18.8528877 C33.837,19.7332353 32.012,21.7282894 30.922,24.327268 L29.078,23.5500782 C30.37,20.4743699 32.584,18.0887179 35.15,17.007062 C39.905,15.0049972 44.971,16.0255595 48.704,19.7342369 C49.774,20.8068789 50.66,21.851478 51.35,23.2035478 C52.843,22.0978551 54.857,21.7673492 56.757,22.3993166 C59.189,23.2085554 60.727,25.3207889 60.975,28.1290879 C64.381,28.9884034 68,31.7115721 68,36.9586044 L68,36.9586044 Z" id="AWS-CloudFormation_Icon_64_Squid" fill="#FFFFFF"></path>
-                            </g>
-                        </svg>
-                        <img src="img/spinner.png" class="loading-spinner" alt="Carregando">
-                    </span>
+                            </svg>
+                            <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                        </span>
+                    </div>
+                </div>
+            
+                <!-- Bloco 5: Observabilidade & Monitoramento -->
+                <div class="skills-box">
+                    <p class="skills-title">05 // OBSERVABILIDADE & MONITORAMENTO</p>
+                    <div class="tech-row">
+                        <!-- Prometheus -->
+                        <span class="skill-em-estudo" title="Prometheus (Em estudo)">
+                            <i class="devicon-prometheus-original colored"></i>
+                            <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                        </span>
+                        
+                        <!-- Grafana (Novo Arquivo) -->
+                        <span class="skill-em-estudo custom-logo" title="Grafana (Em estudo)">
+                            <img src="img/grafana-icon.svg" class="svg-tech-icon" alt="Grafana">
+                            <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                        </span>
+
+                        <!-- Datadog (Novo Arquivo) -->
+                        <span class="skill-em-estudo custom-logo datadog-logo" title="Datadog (Em estudo)">
+                            <img src="img/datadog-icon.svg" class="svg-tech-icon" alt="Datadog">
+                            <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Bloco 6: Planos (Dinâmico e Sem legenda extra) -->
+                <div class="skills-box plans-interactive">
+                    <!-- Botão interativo sem legenda -->
+                    <div class="plans-trigger">
+                        <ion-icon name="terminal-outline"></ion-icon>
+                        <span>PLANOS</span>
+                    </div>
+
+                    <!-- Conteúdo de IA que aparece na animação -->
+                    <div class="plans-content">
+                        <p class="skills-title">06 // INTELIGÊNCIA ARTIFICIAL</p>
+                        <div class="tech-row">
+                            <span class="skill-em-estudo" title="PyTorch (Em estudo)">
+                                <i class="devicon-pytorch-original colored"></i>
+                                <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                            </span>
+                            <span class="skill-em-estudo" title="Hugging Face (Em estudo)">
+                                <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/huggingface/huggingface-original.svg" class="svg-tech-icon" alt="Hugging Face">
+                                <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                            </span>
+                            <span class="skill-em-estudo" title="TensorFlow (Em estudo)">
+                                <i class="devicon-tensorflow-original colored"></i>
+                                <img src="img/spinner.png" class="loading-spinner" alt="Estudando">
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

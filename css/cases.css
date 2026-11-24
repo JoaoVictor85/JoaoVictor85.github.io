@@ -1,5 +1,5 @@
 /* =========================================
-   Reset e Variáveis (Padronizadas)
+   Reset, Fontes e Variáveis DevOps (v1.1.2)
 ========================================= */
 * {
     margin: 0;
@@ -9,49 +9,76 @@
 }
 
 :root {
-    --bg-color: #111821;
-    --text-color: #CFCFCF;
-    --main-color: #008B8B;
-    --box-bg: #1E2A3A;
-    --border-color: #293544;
+    --bg-dark: #0B0E14;         /* Escuro DevOps / Back de Console */
+    --pane-bg: #0F1622;         /* Painel de Alto Nível */
+    --accent-glow: #00A896;     /* Verde-petróleo característico */
+    --accent-bright: #00FF7F;   /* Verde-cibernético de sucesso/status */
+    --term-amber: #EEDD82;      /* Alerta/Git terminal */
+    --border-dim: #1D293B;      /* Divisórias do pipeline */
+    --text-primary: #FFFFFF;    /* Títulos em forte destaque */
+    --text-muted: #94A3B8;      /* Textos corridos */
+    --terminal-head: #1A2433;   /* Topo das caixas console */
 }
 
 body {
-    /* O gradiente escuro + a imagem agora ficam no fundo da página inteira */
+    background-color: var(--bg-dark);
+    /* O gradiente escuro + imagem de arquitetura agora ficam integrados de forma discreta */
     background-image: 
-        linear-gradient(rgba(17, 24, 33, 0.92), rgba(17, 24, 33, 0.92)), 
+        linear-gradient(rgba(11, 14, 20, 0.95), rgba(11, 14, 20, 0.95)), 
         url('../img/arquitetura.png'); 
-    background-color: var(--bg-color); /* Fallback caso a imagem falhe */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    
-    color: var(--text-color);
+    color: var(--text-muted);
     line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+    padding-bottom: 60px;
+}
+
+/* Efeito Scanline sutil no fundo */
+.scanline {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
+    z-index: 999;
+    pointer-events: none;
+    opacity: 0.12;
 }
 
 /* =========================================
    Barra Superior (Voltar ao Portfólio)
 ========================================= */
 .top-bar {
-    background-color: var(--box-bg);
+    background-color: var(--pane-bg);
+    border-bottom: 1px solid var(--border-dim);
     padding: 15px 30px;
-    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
 }
 
 .btn-voltar {
-    color: var(--main-color);
-    text-decoration: none;
-    font-weight: bold;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 16px;
-    transition: 0.3s;
+    color: var(--term-amber);
+    text-decoration: none;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px dashed rgba(238, 221, 130, 0.3);
+    padding: 8px 14px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    background-color: rgba(15, 22, 34, 0.6);
 }
 
 .btn-voltar:hover {
-    color: #FFF;
+    color: var(--accent-bright);
+    border-color: var(--accent-bright);
+    box-shadow: 0 0 10px rgba(0, 255, 127, 0.15);
+    transform: translateX(-3px);
 }
 
 /* =========================================
@@ -64,73 +91,280 @@ body {
 }
 
 /* =========================================
-   Header e Barra de Pesquisa
+   Header de Seção
 ========================================= */
 .page-header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 45px;
+}
+
+.badge-git {
+    font-family: 'Fira Code', monospace;
+    font-size: 11px;
+    color: var(--term-amber);
+    border: 1px solid rgba(238, 221, 130, 0.2);
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 15px;
+    text-transform: lowercase;
 }
 
 .page-header h1 {
-    font-size: 36px;
-    color: #FFF;
-    margin-bottom: 10px;
+    font-size: 34px;
+    color: var(--text-primary);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+}
+
+.role-desc {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-bottom: 25px;
+}
+
+/* =========================================
+   Barra de Pesquisa de Console (Animação Standby e Foco)
+========================================= */
+.search-wrapper {
+    margin: 30px auto 0;
+    max-width: 620px;
+    background-color: var(--pane-bg);
+    border: 1px solid var(--border-dim);
+    border-radius: 6px;
+    padding: 6px 16px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .search-bar {
-    margin: 30px auto 0;
-    max-width: 600px;
     display: flex;
     align-items: center;
-    background-color: var(--box-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 30px;
-    padding: 5px 20px;
+    gap: 12px;
 }
 
-.search-bar ion-icon {
-    font-size: 22px;
-    color: var(--main-color);
+.search-icon-anim {
+    font-size: 20px;
+    color: var(--accent-glow);
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.input-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    position: relative;
 }
 
 .search-bar input {
-    flex: 1;
+    width: 100%;
     background: transparent;
     border: none;
-    padding: 12px;
-    color: #FFF;
-    font-size: 16px;
+    padding: 10px 0;
+    color: var(--text-primary);
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
     outline: none;
 }
 
+/* Cursor Pulsante (Standby) */
+.terminal-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background-color: var(--accent-bright);
+    margin-left: 2px;
+    animation: cursorBlink 1s step-end infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Informações extras da barra de pesquisa */
+.search-status-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Fira Code', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    border-top: 1px solid rgba(29, 41, 59, 0.5);
+    margin-top: 6px;
+    padding-top: 6px;
+}
+
+.status-indicator-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--accent-bright);
+    box-shadow: 0 0 5px var(--accent-bright);
+    animation: indicatorPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes indicatorPulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.3); opacity: 1; }
+}
+
+.status-msg {
+    opacity: 0.8;
+}
+
+/* Animação com foco de Pesquisa */
+.foco-busca {
+    border-color: var(--accent-bright);
+    box-shadow: 0 0 20px rgba(0, 255, 127, 0.2), inset 0 0 4px rgba(0, 255, 127, 0.1);
+    transform: scale(1.02);
+}
+
+.foco-busca .search-icon-anim {
+    color: var(--accent-bright);
+    animation: gearRotate 1.5s linear infinite; /* Rotação da busca */
+}
+
+@keyframes gearRotate {
+    100% { transform: rotate(360deg); }
+}
+
 /* =========================================
-   Grade de Cases (Boxes)
+   Estrutura e Paginação do Carrossel 🎠 (Sem Scroll!)
 ========================================= */
+.carousel-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 20px auto;
+    position: relative;
+    max-width: 860px;
+}
+
+.carousel-view {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    min-height: 380px; /* Alinha o tamanho do card de forma estável */
+}
+
+/* Transforma o Grid em uma pilha única onde só o ativo aparece */
 .cases-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
+    grid-template-columns: 1fr;
+    width: 100%;
 }
 
 .case-card {
-    background-color: var(--box-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 25px;
+    grid-area: 1 / 1 / 2 / 2; /* Sobrepõe os cards no mesmo espaço */
+    background-color: var(--pane-bg);
+    border: 1px solid var(--border-dim);
+    border-radius: 8px;
+    padding: 26px;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Configuração de Oculto / Off-screen */
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.96) translateX(30px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, border-color 0.3s ease;
+    
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Exibe o Card Ativo com Efeito de Fade */
+.case-card.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1) translateX(0);
+    z-index: 5;
+}
+
+/* Detalhe estético de borda superior */
+.card-edge {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 6px;
+    height: 6px;
+    border-top: 2px solid var(--accent-glow);
+    border-left: 2px solid var(--accent-glow);
 }
 
 .case-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    border-color: var(--main-color);
+    border-color: var(--accent-glow);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.case-card:hover .card-edge {
+    border-color: var(--accent-bright);
+}
+
+/* Botões Laterais (Carrossel Terminal) */
+.carousel-nav {
+    background: rgba(26, 36, 51, 0.5);
+    border: 1px solid var(--border-dim);
+    color: var(--accent-glow);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    z-index: 10;
+    outline: none;
+}
+
+.carousel-nav:hover {
+    background-color: var(--pane-bg);
+    color: var(--accent-bright);
+    border-color: var(--accent-bright);
+    box-shadow: 0 0 10px rgba(0, 255, 127, 0.15);
+    transform: scale(1.08);
+}
+
+/* Bullets de Rodapé Terminal (01, 02, etc.) */
+.carousel-bullets {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 35px;
+}
+
+.bullet {
+    background-color: rgba(26, 36, 51, 0.5);
+    border: 1px solid var(--border-dim);
+    color: var(--text-muted);
+    font-family: 'Fira Code', monospace;
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.bullet.active {
+    background-color: rgba(0, 168, 150, 0.1);
+    color: var(--accent-bright);
+    border-color: var(--accent-bright);
+    box-shadow: 0 0 8px rgba(0, 255, 127, 0.1);
+    font-weight: 600;
+    transform: translateY(-1px);
 }
 
 /* =========================================
-   Tags de Dificuldade (Medidor com Gota)
+   Tags de Dificuldade (Com pointer de Gota)
 ========================================= */
 .diff-wrapper {
     display: flex;
@@ -140,11 +374,12 @@ body {
 }
 
 .diff-text {
-    font-size: 12px;
-    font-weight: bold;
-    color: var(--text-color);
+    font-family: 'Fira Code', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     width: 105px; 
 }
 
@@ -152,192 +387,217 @@ body {
     position: relative;
     display: flex;
     width: 120px;
-    height: 18px;
-    border: 2px solid var(--text-color); 
+    height: 18px; /* Altura para destacar a gota */
+    border: 1.5px solid var(--border-dim); 
     border-radius: 4px;
-    background-color: var(--bg-color); 
+    background-color: rgba(11, 14, 20, 0.6); 
 }
 
 .diff-segment {
     flex: 1;
-    border-right: 2px solid var(--text-color); 
+    border-right: 1.5px solid var(--border-dim); 
+    z-index: 2;
 }
 
 .diff-segment:last-child {
     border-right: none;
 }
 
-.diff-meter.medium .diff-segment:nth-child(1) { background-color: var(--main-color); }
-.diff-meter.medium .diff-segment:nth-child(2) { background-color: #EEDD82; }
+/* Segmentos preenchidos por cor de complexidade */
+.diff-meter.medium .diff-segment:nth-child(1) { background-color: var(--accent-glow); }
+.diff-meter.medium .diff-segment:nth-child(2) { background-color: var(--term-amber); }
 
-.diff-meter.hard .diff-segment:nth-child(1) { background-color: var(--main-color); }
-.diff-meter.hard .diff-segment:nth-child(2) { background-color: #EEDD82; }
-.diff-meter.hard .diff-segment:nth-child(3) { background-color: #FF6347; }
+.diff-meter.hard .diff-segment:nth-child(1) { background-color: var(--accent-glow); }
+.diff-meter.hard .diff-segment:nth-child(2) { background-color: var(--term-amber); }
+.diff-meter.hard .diff-segment:nth-child(3) { background-color: #FF5F56; } /* Vermelho/Laranja de Alerta */
 
-.diff-meter.expert .diff-segment:nth-child(1) { background-color: var(--main-color); }
-.diff-meter.expert .diff-segment:nth-child(2) { background-color: #EEDD82; }
-.diff-meter.expert .diff-segment:nth-child(3) { background-color: #FF6347; }
-.diff-meter.expert .diff-segment:nth-child(4) { background-color: #BA55D3; }
+.diff-meter.expert .diff-segment:nth-child(1) { background-color: var(--accent-glow); }
+.diff-meter.expert .diff-segment:nth-child(2) { background-color: var(--term-amber); }
+.diff-meter.expert .diff-segment:nth-child(3) { background-color: #FF5F56; }
+.diff-meter.expert .diff-segment:nth-child(4) { background-color: #BA55D3; } /* Roxo para Expert */
 
+/* Pointer de Gota */
 .diff-pointer {
     position: absolute;
-    bottom: -18px; 
+    bottom: -18px; /* Posição perfeita logo abaixo do medidor */
     font-size: 22px;
+    z-index: 10;
+    transition: all 0.3s ease;
 }
 
-.diff-meter.medium .diff-pointer { left: calc(37.5% - 11px); color: #EEDD82; }
-.diff-meter.hard .diff-pointer { left: calc(62.5% - 11px); color: #FF6347; }
+/* Posições dinâmicas para a gota conforme a complexidade */
+.diff-meter.medium .diff-pointer { left: calc(37.5% - 11px); color: var(--term-amber); }
+.diff-meter.hard .diff-pointer { left: calc(62.5% - 11px); color: #FF5F56; }
 .diff-meter.expert .diff-pointer { left: calc(87.5% - 11px); color: #BA55D3; }
 
-/* =========================================
-   Textos e Títulos do Card
-========================================= */
+/* Títulos do Card */
 .case-title {
     font-size: 18px;
-    color: #FFF;
+    font-weight: 700;
+    color: var(--text-primary);
     margin-bottom: 12px;
     line-height: 1.4;
 }
 
 .case-desc {
-    font-size: 14px;
+    font-size: 14.5px;
+    color: var(--text-muted);
     margin-bottom: 25px;
     flex-grow: 1;
+    text-align: justify;
 }
 
 /* =========================================
-   Botão "Ler Case Completo"
+   Botão Ler Case Completo (Estilo Portfólio)
 ========================================= */
 .read-more {
     margin-top: auto; 
-    padding: 10px 20px;
-    font-weight: bold;
-    font-size: 15px;
-    color: var(--text-color); 
-    background-color: var(--main-color);
-    border: 1px solid var(--main-color);
-    border-radius: 5px;
+    padding: 10px 18px;
+    font-family: 'Fira Code', monospace;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-primary); 
+    background-color: var(--pane-bg);
+    border: 1px solid var(--border-dim);
+    border-radius: 6px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: 1s; 
+    transition: all 0.3s ease; 
     width: fit-content; 
 }
 
-/* Efeito ao passar o mouse */
-.case-card:hover .read-more,
-.read-more:hover {           
-    background-color: var(--text-color);
-    color: var(--main-color);
-    border-color: var(--text-color);
+.case-card:hover .read-more {           
+    background-color: rgba(0, 168, 150, 0.1);
+    color: var(--accent-bright);
+    border-color: var(--accent-bright);
+    box-shadow: 0 0 10px rgba(0, 255, 127, 0.15);
 }
 
 /* =========================================
-   Conteúdo do Case Completo
+   Estrutura do Case Expandido (Individual)
 ========================================= */
 .btn-voltar-lista {
-    background: transparent;
-    border: 1px solid var(--main-color);
-    color: var(--main-color);
-    padding: 10px 20px;
-    border-radius: 5px;
+    background: var(--pane-bg);
+    border: 1px dashed var(--border-dim);
+    color: var(--term-amber);
+    padding: 10px 18px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    display: flex;
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 30px;
-    transition: 0.3s;
+    margin-bottom: 35px;
+    transition: all 0.3s ease;
 }
 
 .btn-voltar-lista:hover {
-    background: var(--main-color);
-    color: var(--bg-color);
+    background: rgba(0, 255, 127, 0.05);
+    border-color: var(--accent-bright);
+    color: var(--accent-bright);
 }
 
 .case-content h1 {
-    font-size: 28px;
-    color: #FFF;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 15px;
+    font-size: 30px;
+    color: var(--text-primary);
+    border-bottom: 1.5px solid var(--border-dim);
+    padding-bottom: 18px;
     margin-bottom: 30px;
+    line-height: 1.35;
 }
 
-/* =========================================
-   Background de Arquitetura no Case
-========================================= */
-/* Container principal do case individual */
 .case-content {
+    background-color: var(--pane-bg);
+    border: 1px solid var(--border-dim);
+    border-radius: 8px;
+    padding: 45px;
     position: relative;
-    padding: 40px;
-    border-radius: 10px;     
 }
 
-/* Precisamos garantir que os elementos dentro do case fiquem acima do fundo */
-.case-content > * {
-    position: relative;
-    z-index: 2;
-}
-
-/* Caixa com transparência e desfoque */
+/* Seções Internas do Documento */
 .case-section {
     margin-bottom: 40px;
-    background-color: rgba(30, 42, 58, 0.85); 
+    background-color: rgba(11, 14, 20, 0.7); 
     padding: 30px;
-    border-radius: 8px;
-    border-left: 5px solid var(--main-color);
-    backdrop-filter: blur(4px); 
+    border-radius: 6px;
+    border-left: 4px solid var(--accent-glow);
 }
 
 .case-section h2 {
-    color: var(--main-color);
-    font-size: 20px;
+    color: var(--accent-glow);
+    font-family: 'Fira Code', monospace;
+    font-size: 17px;
+    text-transform: uppercase;
     margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+.case-section p {
+    font-size: 15px;
+    color: var(--text-muted);
+    text-align: justify;
 }
 
 .case-section ul {
-    list-style-position: inside;
-    margin-left: 15px;
+    list-style-type: square;
+    margin-left: 20px;
     margin-top: 10px;
 }
 
 .case-section li {
     margin-bottom: 8px;
+    font-size: 15px;
+    color: var(--text-muted);
+    text-align: justify;
 }
 
-/* Tabela de Resultados */
+.case-section strong {
+    color: var(--text-primary);
+}
+
+/* Tabela de Resultados do Pipeline */
+.table-scroll {
+    overflow-x: auto;
+    margin-top: 20px;
+    border: 1px solid var(--border-dim);
+    border-radius: 6px;
+}
+
 .results-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
+    font-size: 14.5px;
+    min-width: 500px;
 }
 
 .results-table th, .results-table td {
-    padding: 12px 15px;
+    padding: 14px 18px;
     text-align: left;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-dim);
 }
 
 .results-table th {
-    background-color: rgba(0, 139, 139, 0.1);
-    color: var(--main-color);
-    font-weight: bold;
+    background-color: rgba(26, 36, 51, 0.7);
+    color: var(--accent-glow);
+    font-family: 'Fira Code', monospace;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.results-table tr:last-child td {
+    border-bottom: none;
 }
 
 .results-table td strong {
-    color: #00FF7F; 
-}
-
-/* Responsividade Básica */
-@media (max-width: 768px) {
-    .case-section {
-        padding: 20px;
-    }
-    .results-table th, .results-table td {
-        padding: 10px;
-        font-size: 14px;
-    }
+    color: var(--accent-bright);
+    background: rgba(0, 255, 127, 0.05);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 255, 127, 0.1);
 }
 
 /* =========================================
@@ -346,24 +606,58 @@ body {
 .tech-icons {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 24px;
     margin-top: 20px;
 }
 
 .tech-icons i,
 .tech-icons svg {
-    font-size: 45px; 
-    width: 45px;     
-    height: 45px;
+    font-size: 42px; 
+    width: 42px;     
+    height: 42px;
     display: inline-block;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .tech-icons i:hover,
 .tech-icons svg:hover {
-    transform: scale(1.1);
+    transform: scale(1.12);
 }
 
-/* Regras de clareamento caso você use GitHub ou Linux nos próximos cases */
-.tech-icons i.devicon-linux-plain.colored { color: #CFCFCF !important; }
-.tech-icons i.devicon-github-original.colored { color: #EEDD82 !important; }
+/* Suporte de Contraste e Customizações */
+.tech-icons i.devicon-linux-plain.colored { color: #A8B2C1 !important; }
+.tech-icons i.devicon-github-original.colored { color: #F0E68C !important; }
+
+/* Responsividade Mobile Geral */
+@media (max-width: 768px) {
+    .container {
+        margin: 20px auto;
+    }
+    .page-header h1 {
+        font-size: 28px;
+    }
+    .search-wrapper {
+        padding: 4px 12px;
+    }
+    .carousel-container {
+        gap: 10px;
+    }
+    .carousel-nav {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+    .carousel-view {
+        min-height: 420px; /* Garante que o conteúdo quebrado verticalmente caiba no mobile */
+    }
+    .case-content {
+        padding: 24px;
+    }
+    .case-section {
+        padding: 20px;
+    }
+    .results-table th, .results-table td {
+        padding: 10px;
+        font-size: 13.5px;
+    }
+}
